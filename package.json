@@ -1,0 +1,13 @@
+{
+  "name": "authjwt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "<shabankhawar99@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
