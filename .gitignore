@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/test.js
 **/node_modules
 **/.pnp
 **/.pnp.js

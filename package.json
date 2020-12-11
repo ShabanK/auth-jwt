@@ -5,9 +5,16 @@
   "author": "<shabankhawar99@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.js"
+    "srv": "nodemon app.js",
+    "client": "yarn --cwd client start",
+    "dev": "concurrently \"yarn srv\" \"yarn client\""
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
   }
 }
