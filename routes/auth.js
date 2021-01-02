@@ -1,37 +1,49 @@
 const router = require("express").Router();
 const bcryptjs = require("bcryptjs");
+const User = require("../models/users");
 
-const users = [];
+const users = []; //local for now //remove later
 
 router.get("/", (req, res) => {
-  res.json(users);
+  //remove later
+  console.log(
+    User.find({}).then((result) => {
+      console.log(result);
+    })
+  );
+  res.json(users); //local
 });
 
-router.post("/signup", async (req, res) => {
-  try {
-    console.log(req.body);
-    const { firstName, lastName, password, email } = req.body;
+router.post("/signup", (req, res) => {
+  console.log(req.body); //remove later
+  const { firstName, lastName, password, email } = req.body;
+  User.findOne({ email: email }).then(async (result) => {
     //check if user already exists
+    if (result) {
+      res.status(409).send("user already exists with this email");
+    } else {
+      //if not
+      try {
+        const hashedPassword = await bcryptjs.hash(password, 10);
+        console.log(hashedPassword); //remove later
+        const user = new User({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: hashedPassword,
+        });
 
-    //if not
-
-    const hashedPassword = await bcryptjs.hash(password, 10);
-
-    console.log(hashedPassword);
-
-    const user = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: hashedPassword,
-    };
-
-    users.push(user);
-    res.status(201).send();
-  } catch (err) {
-    res.status(500).send();
-    console.error(err);
-  }
+        console.log(user); //remove later
+        await user.save().then(() => {
+          res.status(201).send();
+        });
+        users.push(user); // local
+      } catch (err) {
+        res.status(500).send();
+        console.error(err); //remove later
+      }
+    }
+  });
 });
 
 router.post("/login", async (req, res) => {
